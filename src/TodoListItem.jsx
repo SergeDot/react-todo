@@ -1,4 +1,4 @@
-const TodoListItem = ({title}) => {
+const TodoListItem = ({ title }) => {
 
   return (
     <li>{title}</li>
