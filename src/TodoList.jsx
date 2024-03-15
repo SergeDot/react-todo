@@ -1,33 +1,14 @@
-import TodoListItem from './TodoListItem'
+import TodoListItem from './TodoListItem';
 
-const TodoList = () => {
-  const todoList = [{
-    id: 1,
-    title: "451 Fahrenheit",
-    author: "Ray Bradbury",
-    state: "California",
-    country: "USA"
-  }, {
-    id: 2,
-    title: "The Catcher in the Rye",
-    author: "Jerome David Sallinger",
-    state: "New Hampshire",
-    country: "USA"
-  }, {
-    id: 3,
-    title: "The Lord of Flies",
-    author: "William Golding",
-    state: "Cornwall",
-    country: "UK"
-  }];
+const TodoList = ({ todoList }) => {
 
   return (
     <ul>
-      {todoList.map(item => {
-        return <TodoListItem todo={item} key={item.id} />
+      {todoList.map(({ id, title }) => {
+        return <TodoListItem key={id} title={title} />
       })}
     </ul>
-  )
-}
+  );
+};
 
-export default TodoList
+export default TodoList;
