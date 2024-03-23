@@ -1,13 +1,21 @@
 import './App.css';
 import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+const useSemiPersistentState = () => {
+  const [value, setValue] = useState(JSON.parse(localStorage.getItem('savedTodoList')) || []);
+  useEffect(() => {
+    localStorage.setItem('savedTodoList', JSON.stringify(value));
+  }, [value]);
+  return [value, setValue];
+};
 
 const App = () => {
+  const [todoList, setTodoList] = useSemiPersistentState();
   const addTodo = (newTodo) => {
     setTodoList([newTodo, ...todoList])
   };
-  const [todoList, setTodoList] = useState([]);
 
   return (
     <>
