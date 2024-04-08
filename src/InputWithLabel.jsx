@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-const InputWithLabel = ({ todoTitle, handleTitleChange, children }) => {
+const InputWithLabel = ({ todoTitle, handleTitleChange, children, isFocused }) => {
   const inputRef = useRef();
   useEffect(() => {
-    inputRef.current.focus();
-  });
+    inputRef.current.focus(); 
+  }, [isFocused]);
 
   return (
     <>
