@@ -3,7 +3,7 @@ import InputWithLabel from './InputWithLabel';
 
 const AddTodoForm = ({ onAddTodo }) => {
   const [todoTitle, setTodoTitle] = useState([]);
-  const [isInvalid, setIsInvalid] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const handleTitleChange = (event) => {
     const newTodoTitle = event.target.value;
@@ -13,9 +13,9 @@ const AddTodoForm = ({ onAddTodo }) => {
   useEffect(() => {
     // check for empty string
     if (todoTitle.length && todoTitle.trim()) {
-      setIsInvalid(false);
+      setIsDisabled(false);
     } else {
-      setIsInvalid(true);
+      setIsDisabled(true);
     }
   }, [todoTitle]);
 
@@ -30,7 +30,7 @@ const AddTodoForm = ({ onAddTodo }) => {
       <InputWithLabel todoTitle={todoTitle} handleTitleChange={handleTitleChange} >
         Title
       </InputWithLabel>
-      <button disabled={isInvalid}>Add</button>
+      <button disabled={isDisabled}>Add</button>
     </form>
   );
 };

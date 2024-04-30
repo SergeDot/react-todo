@@ -24,17 +24,18 @@ const App = () => {
       const data = response.data.records;
       const todos = data.map(todo => todo = { title: todo.fields.title, id: todo.id });
       setTodoList(todos);
-      setIsLoading(false);
+      // setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setErrorMessage('Oopsie! Error getting the list. Please refresh the page or try again later')
-      setIsLoading(false);
+      // setIsLoading(false);
       console.log(`Error getting data from the database ${error.message}`);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    new Promise((resolve, reject) => { setTimeout(() => resolve(fetchData()), 2000) });
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -70,19 +71,25 @@ const App = () => {
     setTodoList(newTodoList);
   };
 
+  if (isError) {
+    return (<>
+      <h1>
+        Todo List
+      </h1><p>{errorMessage}</p>
+      </>)
+  }
+
   return (
     <>
       <h1>
         Todo List
       </h1>
-      {isError
-        ? (<p>{errorMessage}</p>)
-        : isLoading
-          ? (<p>Loading...</p>)
-          : (<>
-            <AddTodoForm onAddTodo={addTodo} />
-            <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
-          </>)
+      {isLoading
+        ? (<p>Loading...</p>)
+        : (<>
+          <AddTodoForm onAddTodo={addTodo} />
+          <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
+        </>)
       }
     </>
   );
