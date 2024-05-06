@@ -15,42 +15,33 @@ const bearerToken = `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`;
 const App = () => {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isAdding, setIsAdding] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // useCallBack for pessimistic rendering, to make sure the displayed data matches the db
-  const callbackFetchData = useCallback(async () => {
+  const fetchData = async () => {
     const options = {
       headers: { Authorization: bearerToken },
     };
+
     try {
       const response = await axios.get(url, options);
       if (response.status !== 200) throw new Error(`${response.status}`);
-
       const data = response.data.records;
       const todos = data.map(todo => todo = { title: todo.fields.title, id: todo.id });
-      return todos;
+      setTodoList(todos);
+      // setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      setIsError(true);
+      setErrorMessage('Oopsie! Error getting the list. Please refresh the page or try again later')
+      // setIsLoading(false);
+      console.log(`Error getting data from the database ${error.message}`);
     }
-  }, [isLoading, isAdding]);
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    if (isLoading) {
-      new Promise((resolve, reject) => { setTimeout(() => resolve(callbackFetchData()), 2000) })
-        .then(result => {
-          setTodoList(result || []);
-          setIsLoading(false);
-        });
-    }
-
-    if (isAdding) {
-      new Promise((resolve, reject) => resolve(callbackFetchData()))
-        .then(result => {
-          setTodoList(result || []);
-          setIsAdding(false);
-        });
-    }
-  }, [callbackFetchData]);
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (!isLoading) {
@@ -69,14 +60,14 @@ const App = () => {
 
     try {
       const response = await axios.post(url, todo, options);
-      if (response.status !== 200) throw new Error(`${response.status}`);
-
+      if (response.status !== 200) throw new Error(response.status);
       const { id: todoId, fields: { title: todoTitle } } = response.data;
       todo = { id: todoId, title: todoTitle };
-      setIsAdding(true);
       setTodoList([todo, ...todoList]);
     } catch (error) {
-      console.log(error);
+      setIsError(true);
+      setErrorMessage('Oopsie! Error adding a new ToDo. Please refresh the page or try again later');
+      console.log(`Error adding data ${error.message}`);
     }
   };
 
@@ -84,6 +75,14 @@ const App = () => {
     const newTodoList = todoList.filter(todo => todo.id !== id);
     setTodoList(newTodoList);
   };
+
+  if (isError) {
+    return (<>
+      <h1>
+        Todo List
+      </h1><p>{errorMessage}</p>
+      </>)
+  }
 
   return (
     <BrowserRouter>

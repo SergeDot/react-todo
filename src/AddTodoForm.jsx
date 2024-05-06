@@ -1,21 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InputWithLabel from './InputWithLabel';
 
 const AddTodoForm = ({ onAddTodo }) => {
   const [todoTitle, setTodoTitle] = useState([]);
-  const [isInvalid, setIsInvalid] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const handleTitleChange = (event) => {
     const newTodoTitle = event.target.value;
     setTodoTitle(newTodoTitle);
-    
-    // check for empty string
-    if (newTodoTitle && newTodoTitle.trim()) {
-      setIsInvalid(false);
-    } else {
-      setIsInvalid(true);
-    }
   };
+
+  useEffect(() => {
+    // check for empty string
+    if (todoTitle.length && todoTitle.trim()) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [todoTitle]);
 
   const handleAddTodo = (event) => {
     event.preventDefault();
@@ -25,10 +27,10 @@ const AddTodoForm = ({ onAddTodo }) => {
 
   return (
     <form action="submit" onSubmit={handleAddTodo}>
-      <InputWithLabel todoTitle={todoTitle} handleTitleChange={handleTitleChange} isFocused >
+      <InputWithLabel todoTitle={todoTitle} handleTitleChange={handleTitleChange} >
         Title
       </InputWithLabel>
-      <button disabled={isInvalid}>Add</button>
+      <button disabled={isDisabled}>Add</button>
     </form>
   );
 };
