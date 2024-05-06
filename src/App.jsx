@@ -1,7 +1,7 @@
 import './App.css';
 import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   BrowserRouter,
