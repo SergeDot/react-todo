@@ -29,7 +29,6 @@ const App = () => {
       const data = response.data.records;
       const todos = data.map(todo => todo = { title: todo.fields.title, id: todo.id });
       setTodoList(todos);
-      // setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setErrorMessage('Oopsie! Error getting the list. Please refresh the page or try again later')
