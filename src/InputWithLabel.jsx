@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 const InputWithLabel = ({ todoTitle, handleTitleChange, children }) => {
   const inputRef = useRef();
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current.focus(); 
   });
 
   return (

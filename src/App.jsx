@@ -3,6 +3,11 @@ import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
 
 const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
 const bearerToken = `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`;
@@ -24,7 +29,6 @@ const App = () => {
       const data = response.data.records;
       const todos = data.map(todo => todo = { title: todo.fields.title, id: todo.id });
       setTodoList(todos);
-      // setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setErrorMessage('Oopsie! Error getting the list. Please refresh the page or try again later')
@@ -80,18 +84,28 @@ const App = () => {
   }
 
   return (
-    <>
-      <h1>
-        Todo List
-      </h1>
-      {isLoading
-        ? (<p>Loading...</p>)
-        : (<>
-          <AddTodoForm onAddTodo={addTodo} />
-          <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
-        </>)
-      }
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={
+          <>
+            <h1>
+              Todo List
+            </h1>
+
+            <AddTodoForm onAddTodo={addTodo} />
+            {isLoading
+              ? (<p>Loading...</p>)
+              : (<TodoList todoList={todoList} onRemoveTodo={removeTodo} />)
+            }
+          </>
+        }
+        />
+        <Route path='/new' element={
+          <h1>New Todo List</h1>
+        }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
