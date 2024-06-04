@@ -1,0 +1,20 @@
+.ListItem {
+  color: rgb(37, 18, 0);
+}
+
+.itemTitle {
+  width: 80%;
+  text-align: left;
+}
+
+@media all and (max-width: 400px) {
+  .itemTitle {
+    width: 40%;
+  }
+}
+
+@media all and (max-width: 900px) {
+  .itemTitle {
+    width: 65%;
+  }
+}
