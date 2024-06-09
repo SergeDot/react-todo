@@ -35,25 +35,24 @@ const todoOne = {
   title: 'TestTitle1'
 };
 
+// tests
 describe('presence of Todo Item', () => {
   it('renders all properties', () => {
     render(<TodoListItem {...todoOne} />);
-    // screen.debug();
     expect(screen.getByText('TestTitle1')).toBeInTheDocument();
     expect(screen.getByText('TestTitle1')).toHaveAttribute('class');
   });
 
   it('renders a clickable remove button', () => {
     render(<TodoListItem {...todoOne} />);
-    // screen.getByRole(''); // suggests roles if the provided role is not available, fails the test
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   it('clicking the remove button calls the callback handler', () => {
     const handleRemoveItem = vi.fn();
     render(<TodoListItem  {...todoOne} onRemoveTodo={handleRemoveItem} />);
-    fireEvent.click(screen.getByRole('button')); // catch event when clicking button
-    expect(handleRemoveItem).toHaveBeenCalledTimes(1); // which event
+    fireEvent.click(screen.getByRole('button'));
+    expect(handleRemoveItem).toHaveBeenCalledTimes(1);
   });
 
   it('each todo title is present', async () => {
@@ -106,7 +105,7 @@ describe('presence of Todo Item', () => {
     try {
       await waitFor(async () => await promise);
     } catch (error) {
-      expect(screen.queryByText(/Loading/)).toBeNull(); // use getBy or the queryBy search variants. As a rule of thumb, use getBy for single elements, and getAllBy for multiple elements. If you are checking for elements that aren’t present, use queryBy (or queryAllBy)
+      expect(screen.queryByText(/Loading/)).toBeNull();
       expect(screen.queryByText(errorMessage)).toBeInTheDocument();
     }
   });

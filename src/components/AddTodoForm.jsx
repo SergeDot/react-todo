@@ -11,8 +11,8 @@ const AddTodoForm = ({ onAddTodo }) => {
     setTodoTitle(newTodoTitle);
   };
 
+// check for empty string
   useEffect(() => {
-    // check for empty string
     if (todoTitle.length && todoTitle.trim()) {
       setIsDisabled(false);
     } else {
