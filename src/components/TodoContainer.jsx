@@ -23,12 +23,12 @@ const TodoContainer = () => {
       const response = await axios.get(url, options);
       if (response.status !== 200) throw new Error(`${response.status}`);
       const data = response.data.records;
-      const todos = data.map(todo => todo = { title: todo.fields.title, id: todo.id });
+      const todos = data.map(todo => todo = { title: todo.fields.title, id: todo.id }).sort((a, b) => b.title < a.title);
       setTodoList(todos);
     } catch (error) {
       setIsError(true);
       setErrorMessage('Oopsie! Error getting the list. Please refresh the page or try again later')
-      // console.log(`Error getting data from the database ${error.message}`);
+      console.log(`Error getting data from the database ${error ? error.message : error}`);
     }
     setIsLoading(false);
   };
@@ -46,13 +46,12 @@ const TodoContainer = () => {
       const response = await axios.post(url, todo, options);
       if (response.status !== 200) throw new Error(response.status);
       const { id: todoId, fields: { title: todoTitle } } = response.data;
-      console.log(response.data);
       todo = { id: todoId, title: todoTitle };
       setTodoList([todo, ...todoList]);
     } catch (error) {
       setIsError(true);
       setErrorMessage('Oopsie! Error adding a new ToDo. Please refresh the page or try again later');
-      console.log(`Error adding data ${error.message}`);
+      console.log(`Error adding data ${error ? error.message : error}`);
     }
   };
 
@@ -79,7 +78,7 @@ const TodoContainer = () => {
     } catch (error) {
       setIsError(true);
       setErrorMessage('Oopsie! Error deleting the ToDo. Please refresh the page or try again later');
-      console.log(`Error deleting data ${error.message}`);
+      console.log(`Error deleting data ${error ? error.message : error}`);
     }
     setIsLoading(false);
   };

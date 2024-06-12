@@ -6,7 +6,7 @@ const TodoListItem = ({ id, title, onRemoveTodo }) => {
 
   return (
     <li className={styles.ListItem}>
-      <span>
+      <span style={{width: '10%', minWidth: '30px'}}>
         <Task height="30px" width="30px" />
       </span>
       <span className={styles.itemTitle}>{title}</span>
