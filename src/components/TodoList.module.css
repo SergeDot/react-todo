@@ -1,0 +1,10 @@
+.ListItem {
+  font-weight: bold;
+  color: rgb(37, 18, 0);
+}
+
+.itemTitle {
+  width: 80%;
+  text-align: left;
+  justify-content:center;
+}
