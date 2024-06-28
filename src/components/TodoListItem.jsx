@@ -1,5 +1,6 @@
 import styles from './TodoListItem.module.css';
-import Task from './task.svg?react'
+import Task from '../assets/task.svg?react';
+import PropTypes from 'prop-types';
 
 const TodoListItem = ({ id, title, onRemoveTodo }) => {
 
@@ -13,5 +14,11 @@ const TodoListItem = ({ id, title, onRemoveTodo }) => {
     </li>
   );
 };
+
+TodoListItem.propTypes = {
+  id: PropTypes.string, 
+  title: PropTypes.string, 
+  onRemoveTodo: PropTypes.func
+}
 
 export default TodoListItem;

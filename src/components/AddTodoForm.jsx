@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import InputWithLabel from './InputWithLabel';
+import PropTypes from 'prop-types';
 
 const AddTodoForm = ({ onAddTodo }) => {
-  const [todoTitle, setTodoTitle] = useState([]);
+  const [todoTitle, setTodoTitle] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
   const handleTitleChange = (event) => {
@@ -10,8 +11,8 @@ const AddTodoForm = ({ onAddTodo }) => {
     setTodoTitle(newTodoTitle);
   };
 
+// check for empty string
   useEffect(() => {
-    // check for empty string
     if (todoTitle.length && todoTitle.trim()) {
       setIsDisabled(false);
     } else {
@@ -28,11 +29,15 @@ const AddTodoForm = ({ onAddTodo }) => {
   return (
     <form action="submit" onSubmit={handleAddTodo}>
       <InputWithLabel todoTitle={todoTitle} handleTitleChange={handleTitleChange} >
-        Title
+        <span>Title</span>
       </InputWithLabel>
       <button disabled={isDisabled}>Add</button>
     </form>
   );
 };
+
+AddTodoForm.propTypes = {
+  onAddTodo: PropTypes.func
+}
 
 export default AddTodoForm;
